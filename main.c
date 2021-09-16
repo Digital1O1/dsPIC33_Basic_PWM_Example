@@ -66,11 +66,7 @@ int main(void)
     
     uint16_t masterPeriod,masterDutyCycle,masterPhase;
     
-    //MPER = 0x4E1F; //value obtained from pwm.c
-    //MDC = 0x7D0; // value derived from MCC generated 'MPER' to give 10% 
 
-
-    // Code example pulled from pwm.h
     masterPeriod = 0x4E1F;
     masterDutyCycle = 0x7D0;
     masterPhase = 0x0;
