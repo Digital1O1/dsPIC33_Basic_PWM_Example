@@ -102,6 +102,7 @@ int main(void) {
 
     while (1) {
         //blink_LED();
+
         ///*
         for (uint16_t i = 0; i < 32500; i = i += 500) {
             PWM_GeneratorDisable(PWM_GENERATOR_1);
