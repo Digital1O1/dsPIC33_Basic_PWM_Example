@@ -79,7 +79,7 @@ void __attribute__((weak)) TRAPS_halt_on_error(uint16_t code)
 inline static void use_failsafe_stack(void)
 {
     static uint8_t failsafe_stack[32];
-    asm volatile (
+    __asm__ volatile (
         "   mov    %[pstack], W15\n"
         :
         : [pstack]"r"(failsafe_stack)

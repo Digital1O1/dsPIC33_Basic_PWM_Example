@@ -18,7 +18,7 @@
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.61
         MPLAB 	          :  MPLAB X v5.45
-*/
+ */
 
 /*
     (c) 2020 Microchip Technology Inc. and its subsidiaries. You may use this
@@ -40,57 +40,87 @@
 
     MICROCHIP PROVIDES THIS SOFTWARE CONDITIONALLY UPON YOUR ACCEPTANCE OF THESE
     TERMS.
-*/
+ */
+
 
 #define FCY 8000000UL // defines __delay_ms()
-/**
-  Section: Included Files
-*/
+#define DELAY 10
+
+/* ----------------------------------- [ Include files ] -----------------------------------*/
+
 #include "mcc_generated_files/system.h"
 #include "mcc_generated_files/pwm.h"
 #include <libpic30.h> //Defines __delay32();
 #include <stdio.h> // Defines printf("");
 
-    // SYSTEMS USED & PROJECT AIMS
-    // printf("Explorer 16/32 v3 DM240001-3, ICD4, dsPIC33CH128MP508 PIM\n\r");
-    // printf("MPLABX v5.5, MCC v4.1.0, XC16 v1.70\n\r");
-    // printf("Setup PWN Basic \n\n\r"); 
-    // printf("LED alternates from 10% to 80% @ 300ms \n\n\r"); 
-/*
-                         Main application
- */
-int main(void)
-{
+/* ----------------------------------- [ PWM functions ] -----------------------------------*/
+
+uint16_t masterPeriod, masterDutyCycle, masterPhase;
+
+void blink_LED() {
+    PWM_GeneratorDisable(PWM_GENERATOR_1);
+    masterDutyCycle = 0x00; // 0% 0
+    PWM_MasterDutyCycleSet(masterDutyCycle);
+    PWM_GeneratorEnable(PWM_GENERATOR_1);
+
+    __delay_ms(300);
+
+    PWM_GeneratorDisable(PWM_GENERATOR_1);
+    masterDutyCycle = 0x3E8; // 15% 1000
+    PWM_MasterDutyCycleSet(masterDutyCycle);
+    PWM_GeneratorEnable(PWM_GENERATOR_1);
+
+    __delay_ms(300);
+
+    PWM_GeneratorDisable(PWM_GENERATOR_1);
+    masterDutyCycle = 0x00; // 0% 0
+    PWM_MasterDutyCycleSet(masterDutyCycle);
+    PWM_GeneratorEnable(PWM_GENERATOR_1);
+
+    __delay_ms(300);
+
+    PWM_GeneratorDisable(PWM_GENERATOR_1);
+    masterDutyCycle = 0xFFFF; // 100% 65535
+    PWM_MasterDutyCycleSet(masterDutyCycle);
+    PWM_GeneratorEnable(PWM_GENERATOR_1);
+
+    __delay_ms(300);
+
+
+}
+
+/* ----------------------------------- [ Main application ] -----------------------------------*/
+int main(void) {
     // initialize the device
-    SYSTEM_Initialize(); 
-    
-    uint16_t masterPeriod,masterDutyCycle,masterPhase;
+    SYSTEM_Initialize();
+
     masterPeriod = 0x4E1F;
-    masterDutyCycle = 0x7D0;
+    masterDutyCycle = 0xFDE8;
     masterPhase = 0x0;
 
-    //PWM_Initialize(); // Commented out in SYSTEM_Initilize
     PWM_MasterPeriodSet(masterPeriod);
 
-    while (1)
-    {
-    PWM_GeneratorDisable(PWM_GENERATOR_1);
-    masterDutyCycle = 0x7D0; // ~10%
-    PWM_MasterDutyCycleSet(masterDutyCycle);
-    PWM_GeneratorEnable(PWM_GENERATOR_1);
-    
-    __delay_ms(300);
-    
-    PWM_GeneratorDisable(PWM_GENERATOR_1);
-    masterDutyCycle = 0x3E80; // ~80%
-    PWM_MasterDutyCycleSet(masterDutyCycle);
-    PWM_GeneratorEnable(PWM_GENERATOR_1);
-    
-    __delay_ms(300);
-    
+    while (1) {
+        //blink_LED();
+        ///*
+        for (uint16_t i = 0; i < 32500; i = i += 500) {
+            PWM_GeneratorDisable(PWM_GENERATOR_1);
+            PWM_MasterDutyCycleSet(i);
+            printf("%d\r\n", i);
+            PWM_GeneratorEnable(PWM_GENERATOR_1);
+            __delay_ms(DELAY);
+        }
+        for (uint16_t i = 32500; i > 0; i = i -= 500) {
+            PWM_GeneratorDisable(PWM_GENERATOR_1);
+            PWM_MasterDutyCycleSet(i);
+            printf("%d\r\n", i);
+            PWM_GeneratorEnable(PWM_GENERATOR_1);
+            __delay_ms(DELAY);
+        }
+        //*/
     }
-    return 1; 
+    return 1;
 }
 /**
  End of File
-*/
+ */
