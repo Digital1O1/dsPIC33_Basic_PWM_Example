@@ -65,8 +65,6 @@ int main(void)
     SYSTEM_Initialize(); 
     
     uint16_t masterPeriod,masterDutyCycle,masterPhase;
-    
-
     masterPeriod = 0x4E1F;
     masterDutyCycle = 0x7D0;
     masterPhase = 0x0;
