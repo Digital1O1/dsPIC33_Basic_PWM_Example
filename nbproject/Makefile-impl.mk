@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Master_PWM_Example
+PROJECTNAME=Basic_PWM_Example.X
 
 # Active Configuration
 DEFAULTCONF=default

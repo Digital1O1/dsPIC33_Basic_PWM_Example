@@ -54,11 +54,11 @@
 #include "reset.h"
 
 #include "reset.h"
+#include "interrupt_manager.h"
+#include "traps.h"
 #include "uart2.h"
 #include "watchdog.h"
 #include "pwm.h"
-#include "interrupt_manager.h"
-#include "traps.h"
 
 #warning "This file will be removed in future MCC releases. Use system.h instead."
 

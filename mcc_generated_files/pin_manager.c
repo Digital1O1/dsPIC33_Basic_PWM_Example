@@ -63,7 +63,7 @@ void PIN_MANAGER_Initialize (void)
      ***************************************************************************/
     LATA = 0x0000;
     LATB = 0x0000;
-    LATC = 0x0000;
+    LATC = 0x0800;
     LATD = 0x0000;
     LATE = 0x0000;
 
@@ -71,9 +71,9 @@ void PIN_MANAGER_Initialize (void)
      * Setting the GPIO Direction SFR(s)
      ***************************************************************************/
     TRISA = 0x001F;
-    TRISB = 0x3FFD;
-    TRISC = 0xF7FF;
-    TRISD = 0xFFFF;
+    TRISB = 0x03FD;
+    TRISC = 0xC7FF;
+    TRISD = 0xFF5F;
     TRISE = 0xFFFF;
 
     /****************************************************************************
@@ -113,8 +113,10 @@ void PIN_MANAGER_Initialize (void)
      ***************************************************************************/
     __builtin_write_RPCON(0x0000); // unlock PPS
 
-    RPINR19bits.U2RXR = 0x003A;    //RC10->UART2:U2RX
     RPOR13bits.RP59R = 0x0003;    //RC11->UART2:U2TX
+    RPOR18bits.RP69R = 0x0022;    //RD5->PWM:PWM4H
+    RPINR19bits.U2RXR = 0x003A;    //RC10->UART2:U2RX
+    RPOR19bits.RP71R = 0x0023;    //RD7->PWM:PWM4L
 
     __builtin_write_RPCON(0x0800); // lock PPS
 }
