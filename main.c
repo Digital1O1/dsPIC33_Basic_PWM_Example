@@ -54,10 +54,6 @@
 #include <stdio.h> // Defines printf("");
 
 /* ----------------------------------- [ PWM functions ] -----------------------------------*/
-
-uint16_t masterPeriod, masterDutyCycle, masterPhase;
-
-
 void cycle_LEDS() {
     for(int i = PWM_GENERATOR_1; i <=PWM_GENERATOR_4; i++)
     {
@@ -196,7 +192,7 @@ int main(void) {
      */
     while (1) {
         cycle_LEDS(); //Toggles four LEDs at varying duty cycles individually
-        //fade_LEDs();//Changes PWM duty cycle on all four LEDs including the on-board RGB LED
+        fade_LEDs();//Changes PWM duty cycle on all four LEDs including the on-board RGB LED
     }
     return 1;
 }
