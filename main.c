@@ -45,6 +45,7 @@
 
 #define FCY 8000000UL // defines __delay_ms()
 #define DELAY 7
+#define CYCLE_DELAY 100
 /* ----------------------------------- [ Include files ] -----------------------------------*/
 
 #include "mcc_generated_files/system.h"
@@ -58,77 +59,81 @@ uint16_t masterPeriod, masterDutyCycle, masterPhase;
 
 
 void cycle_LEDS() {
-    PWM_GeneratorDisable(PWM_GENERATOR_1); //RB14
-    PWM_DutyCycleSet(PWM_GENERATOR_1, 0x4FB0);
+    for(int i = PWM_GENERATOR_1; i <=PWM_GENERATOR_4; i++)
+    {
+        PWM_PeriodSet(i,0x4E20); //Decimal value : 20000
+    }
+    PWM_GeneratorDisable(PWM_GENERATOR_1); //Pin : RB14
+    PWM_DutyCycleSet(PWM_GENERATOR_1, 0x4FB0); //Decimal value : 20400
     PWM_GeneratorEnable(PWM_GENERATOR_1);
-    __delay_ms(DELAY);
+    __delay_ms(CYCLE_DELAY);
 
     PWM_GeneratorDisable(PWM_GENERATOR_1);
-    PWM_DutyCycleSet(PWM_GENERATOR_1, 0x27D8);
+    PWM_DutyCycleSet(PWM_GENERATOR_1, 0x27D8); //Decimal value : 10200
     PWM_GeneratorEnable(PWM_GENERATOR_1);
-    __delay_ms(DELAY);
+    __delay_ms(CYCLE_DELAY);
 
     PWM_GeneratorDisable(PWM_GENERATOR_1);
-    PWM_DutyCycleSet(PWM_GENERATOR_1, 0x64);
+    PWM_DutyCycleSet(PWM_GENERATOR_1, 0x64); //Decimal value : 100
     PWM_GeneratorEnable(PWM_GENERATOR_1);
-    __delay_ms(DELAY);
+    __delay_ms(CYCLE_DELAY);
 
     //-------------------------------------------
 
-    PWM_GeneratorDisable(PWM_GENERATOR_2); //RB12
+    PWM_GeneratorDisable(PWM_GENERATOR_2); //Pin : RB12
     PWM_DutyCycleSet(PWM_GENERATOR_2, 0x4FB0);
     PWM_GeneratorEnable(PWM_GENERATOR_2);
-    __delay_ms(DELAY);
+    __delay_ms(CYCLE_DELAY);
 
     PWM_GeneratorDisable(PWM_GENERATOR_2);
     PWM_DutyCycleSet(PWM_GENERATOR_2, 0x27D8);
     PWM_GeneratorEnable(PWM_GENERATOR_2);
-    __delay_ms(DELAY);
+    __delay_ms(CYCLE_DELAY);
 
     PWM_GeneratorDisable(PWM_GENERATOR_2);
     PWM_DutyCycleSet(PWM_GENERATOR_2, 0x64);
     PWM_GeneratorEnable(PWM_GENERATOR_2);
-    __delay_ms(DELAY);
+    __delay_ms(CYCLE_DELAY);
 
     //-------------------------------------------
 
     PWM_GeneratorDisable(PWM_GENERATOR_3);
-    PWM_DutyCycleSet(PWM_GENERATOR_3, 0x4FB0); //RB10
+    PWM_DutyCycleSet(PWM_GENERATOR_3, 0x4FB0); //Pin : RB10
     PWM_GeneratorEnable(PWM_GENERATOR_3);
-    __delay_ms(DELAY);
+    __delay_ms(CYCLE_DELAY);
 
     PWM_GeneratorDisable(PWM_GENERATOR_3);
     PWM_DutyCycleSet(PWM_GENERATOR_3, 0x27D8);
     PWM_GeneratorEnable(PWM_GENERATOR_3);
-    __delay_ms(DELAY);
+    __delay_ms(CYCLE_DELAY);
 
     PWM_GeneratorDisable(PWM_GENERATOR_3);
     PWM_DutyCycleSet(PWM_GENERATOR_3, 0x64);
     PWM_GeneratorEnable(PWM_GENERATOR_3);
-    __delay_ms(DELAY);
+    __delay_ms(CYCLE_DELAY);
 
 
     //-------------------------------------------
-    PWM_GeneratorDisable(PWM_GENERATOR_4); //RC12
+    PWM_GeneratorDisable(PWM_GENERATOR_4); //Pin : RC12
     PWM_DutyCycleSet(PWM_GENERATOR_4, 0x4FB0);
     PWM_GeneratorEnable(PWM_GENERATOR_4);
-    __delay_ms(DELAY);
+    __delay_ms(CYCLE_DELAY);
 
     PWM_GeneratorDisable(PWM_GENERATOR_4);
     PWM_DutyCycleSet(PWM_GENERATOR_4, 0x27D8);
     PWM_GeneratorEnable(PWM_GENERATOR_4);
-    __delay_ms(DELAY);
+    __delay_ms(CYCLE_DELAY);
 
     PWM_GeneratorDisable(PWM_GENERATOR_4);
     PWM_DutyCycleSet(PWM_GENERATOR_4, 0x64);
     PWM_GeneratorEnable(PWM_GENERATOR_4);
-    __delay_ms(DELAY);
+    __delay_ms(CYCLE_DELAY);
 }
 
 void fade_LEDs() {
     for(int i = PWM_GENERATOR_1; i <=PWM_GENERATOR_4; i++)
     {
-        PWM_PeriodSet(i,0x4E1F);
+        PWM_PeriodSet(i,0x4E20);
     }
 
     for (uint16_t i = 0; i < 32500; i = i += 500) {
@@ -177,7 +182,7 @@ int main(void) {
     // initialize the device
     SYSTEM_Initialize();
 
-    masterPeriod = 0x4E1F;
+    masterPeriod = 0x4E20;
     masterDutyCycle = 0x00;
     masterPhase = 0x0;
 
@@ -190,8 +195,8 @@ int main(void) {
        - 0x64   --> 0.015
      */
     while (1) {
-        //cycle_LEDS();
-        fade_LEDs();
+        cycle_LEDS(); //Toggles four LEDs at varying duty cycles individually
+        //fade_LEDs();//Changes PWM duty cycle on all four LEDs including the on-board RGB LED
     }
     return 1;
 }
