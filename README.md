@@ -55,6 +55,7 @@ Here's also a screenshot that you can also follow along with the mentioned setti
 
 # Step By Step Instructions for the UART2 Peripheral
 The most crucial step is to ensure that the 'Redirect Printf to UART' is enabled so we can check/watch the values being generated for the PWM signal 
+
 ![image](https://user-images.githubusercontent.com/39348633/134455533-7a4c4664-0d60-417f-8004-cfdc9a3fd5b3.png)
 
 # Generate Code
